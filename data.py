@@ -2,10 +2,11 @@ from typing import Any
 
 from untis import get_untis_data
 
-def get_data(env, room: str):
-    stunden = get_untis_data(env,room)
+def get_data(room: str) -> list[Any] | None:
+    stunden = get_untis_data(room)
     stunden = merge_stunden(stunden)
-    print(stunden)
+    #print(stunden)
+    return stunden
 
 def merge_stunden(stunden: list[Any] | None) -> list[Any] | None:
     if not stunden:

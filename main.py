@@ -1,21 +1,16 @@
 from aiohttp import web
 
-from env import loadenv
+
 from data import get_data
 from rest import health, untis
 
 def main():
-    #load env from docker in class "env"
-    try:
-        env = loadenv()
-    except EnvironmentError as e:
-        print(f"Environment Error: {e}")
-        return
+
 
     #try to start rest api
     app = web.Application()
     app.router.add_get("/health",health)
-    app.router.add_post("/untis", untis)
+    app.router.add_get("/untis", untis)
 
     try:
         web.run_app(app, host="0.0.0.0", port=71)
@@ -23,7 +18,6 @@ def main():
         print(f"Error: {e}")
         return
 
-    get_data(env, "2.311")
 
 if __name__ == '__main__':
     main()

@@ -1,6 +1,8 @@
 import webuntis, datetime
 from typing import Any
 
+from env import loadenv
+
 start = datetime.datetime.now()
 end = start + datetime.timedelta(days=7)
 now = datetime.datetime.now()
@@ -8,7 +10,14 @@ time_format_date = "%Y-%m-%d"
 time_format = "%H%M"
 
 
-def get_untis_data(env,raum :str) -> list[Any] | None:
+def get_untis_data(raum :str) -> list[Any] | None:
+    #load env from docker in class "env"
+    try:
+       env = loadenv()
+    except EnvironmentError as e:
+        print(f"Environment Error: {e}")
+        return
+
     login = webuntis.Session(
         server=env.server,
         username=env.username,
@@ -16,6 +25,7 @@ def get_untis_data(env,raum :str) -> list[Any] | None:
         school=env.school,
         useragent=env.useragent,
     )
+
     login.login()
 
     #sortiert nur nach den raum

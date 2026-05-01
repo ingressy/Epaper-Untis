@@ -1,15 +1,20 @@
 from aiohttp import web
 
-from untis import get_untis_data
+from data import get_data
+
+status = "green"
 
 async def health(request):
-    return web.json_response({"status": "green"})
+    return web.json_response({"status": status})
 
 async def untis(request) -> None:
-    data = await request.json()
-    room = data.get("room")
+    room = request.rel_url.query.get("room", "")
+    if not room:
+        status = "yellow"
+        return web.json_response({"status": "yellow", "error": "Room not found"}, status=400)
 
-    if room is None:
-        return
+    stunden = get_data(room)
+    if not stunden:
+        return web.json_response({"status": "red"}, status=404)
 
-    get_untis_data(room)
+    return web.json_response(stunden)
