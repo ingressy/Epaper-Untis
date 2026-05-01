@@ -39,6 +39,7 @@ GET /untis?room=2.311
   }
 }
 ```
+gibt room_changed mit, wenn Raum geändert wurde
 
 **Response 400** – Room nicht angegeben
 ```json
