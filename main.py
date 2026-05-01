@@ -1,7 +1,5 @@
 from aiohttp import web
 
-
-from data import get_data
 from rest import health, untis
 
 def main():
