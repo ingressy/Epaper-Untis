@@ -1,7 +1,7 @@
 from aiohttp import web
 
 from env import loadenv
-from untis import get_untis_data
+from data import get_data
 from rest import health, untis
 
 def main():
@@ -23,7 +23,7 @@ def main():
         print(f"Error: {e}")
         return
 
-    get_untis_data(env,"2.311")
+    get_data(env, "2.311")
 
 if __name__ == '__main__':
     main()

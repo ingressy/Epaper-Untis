@@ -1,13 +1,11 @@
+import webuntis, datetime
 from typing import Any
 
-import webuntis, datetime
-
 start = datetime.datetime.now()
-end = start + datetime.timedelta(days=5)
+end = start + datetime.timedelta(days=7)
 now = datetime.datetime.now()
 time_format_date = "%Y-%m-%d"
 time_format = "%H%M"
-stunden = []
 
 
 def get_untis_data(env,raum :str) -> list[Any] | None:
@@ -25,6 +23,7 @@ def get_untis_data(env,raum :str) -> list[Any] | None:
 
     timetable = login.timetable(room=rooms[0], start=start,end=end)
     timetable = sorted(timetable, key=lambda x: x.start)
+    stunden = []
 
     for h in timetable:
         #spart Zeit
@@ -40,15 +39,35 @@ def get_untis_data(env,raum :str) -> list[Any] | None:
                 "date":  h.start.strftime(time_format_date),
                 "start_time": h.start.strftime(time_format),
                 "end_time" : h.end.strftime(time_format),
-                "klasse": " ".join([k.name for k in h.klassen]),
+                "klasse": short_klassen([k.name for k in h.klassen]),
                 "teacher": " ".join([t.name for t in h.teachers]) if h.teachers else "---",
                 "classroom":  " ".join([r.name for r in h.rooms]),
                 "subject": " ".join([s.name for s in h.subjects]),
                 "code": h.code if h.code is not None else "",
             }
         )
-        return stunden
-    return None
+    login.logout()
+    return stunden
+
+def short_klassen(klassen: list[Any]) -> list[Any]:
+    #wird aus untis.py aufgerufen
+    #macht BGT 24X BGT 2XX XXX 241
+
+    #nur eine klasse
+    if len(klassen) == 1:
+        return klassen[0]
+
+    #gemeinsamer präfix finden
+    prefix = klassen[0]
+    for k in klassen[1:]:
+        while not k.startswith(prefix):
+            prefix = prefix[:-1]
+
+    #add X
+    laenge = len(klassen[0])
+    fehlend = laenge - len(prefix)
+
+    return prefix + "X" *fehlend
 
 
 
