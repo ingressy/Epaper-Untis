@@ -16,7 +16,7 @@ def main():
     app.router.add_get("/untis", untis)
 
     try:
-        web.run_app(app, host="0.0.0.0", port=env.port)
+        web.run_app(app, host="0.0.0.0", port=int(env.port))
     except Exception as e:
         print(f"Error: {e}")
         return
