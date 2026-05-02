@@ -1,6 +1,12 @@
 # Epaper-Untis
 Untis API Mircoservice
 
+## Use
+Git clonen und Login Daten in die env.env eintragen
+```sh
+sudo docker build -t epaper-untis . && sudo docker run --env-file env.env -p 71:71 epaper-untis
+```
+
 ## Endpoints
 ### Get /health
 Gibt den aktuellen Status des Mircoservices wieder
@@ -39,6 +45,7 @@ GET /untis?room=2.311
   }
 }
 ```
+gibt room_changed mit, wenn Raum geändert wurde
 
 **Response 400** – Room nicht angegeben
 ```json
