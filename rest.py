@@ -20,4 +20,4 @@ async def untis(request) -> None:
         return web.json_response({"status": "red"}, status=404)
 
     status = "green"
-    return web.json_response(stunden)
+    return web.json_response({"room": room, "lessons": stunden})
