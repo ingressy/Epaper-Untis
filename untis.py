@@ -5,13 +5,13 @@ from env import loadenv
 
 start = datetime.datetime.now()
 end = start + datetime.timedelta(days=7)
-now = datetime.datetime.now()
 time_format_date = "%Y-%m-%d"
 time_format = "%H%M"
 
 
 def get_untis_data(raum :str) -> list[Any] | None:
     #load env from docker in class "env"
+    now = datetime.datetime.now()
     try:
        env = loadenv()
     except EnvironmentError as e:
