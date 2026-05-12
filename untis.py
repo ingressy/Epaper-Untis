@@ -104,6 +104,3 @@ def raum_change(classroom: str, raum: str) -> str | None:
         return classroom
     if not classroom == raum:
         return raum + "->" + classroom
-
-
-
