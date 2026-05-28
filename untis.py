@@ -97,7 +97,7 @@ def short_klassen(klassen: list[Any]) -> str | Any:
     laenge = len(klassen[0])
     fehlend = laenge - len(prefix)
 
-    return prefix + "X" *fehlend
+    return prefix + "X" * min(fehlend, 6)
 
 def raum_change(classroom: str, raum: str) -> str | None:
     if classroom == raum:
