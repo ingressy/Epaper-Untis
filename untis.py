@@ -86,17 +86,16 @@ def short_klassen(klassen: list[Any]) -> str | Any:
     #nur eine klasse
     if len(klassen) == 1:
         return klassen[0]
-
     #gemeinsamer präfix finden
     prefix = klassen[0]
     for k in klassen[1:]:
         while not k.startswith(prefix):
             prefix = prefix[:-1]
-
+            if not prefix:
+                return "XXXXXX"
     #add X
     laenge = len(klassen[0])
     fehlend = laenge - len(prefix)
-
     return prefix + "X" * min(fehlend, 6)
 
 def raum_change(classroom: str, raum: str) -> str | None:
