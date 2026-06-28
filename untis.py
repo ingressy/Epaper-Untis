@@ -3,15 +3,18 @@ from typing import Any
 
 from env import loadenv
 
-start = datetime.datetime.now()
-end = start + datetime.timedelta(days=7)
+
 time_format_date = "%Y-%m-%d"
 time_format = "%H%M"
 
 
 def get_untis_data(raum :str) -> list[Any] | None:
     #load env from docker in class "env"
+
+    #time
     now = datetime.datetime.now()
+    start = datetime.datetime.now()
+
     try:
        env = loadenv()
     except EnvironmentError as e:
@@ -27,6 +30,11 @@ def get_untis_data(raum :str) -> list[Any] | None:
     )
 
     login.login()
+
+    #end of schoolyear
+    schuljahr_ende = login.schoolyears().current.end.date()
+    end_date = min(now.date() + datetime.timedelta(days=7), schuljahr_ende)
+    end = datetime.datetime.combine(end_date, datetime.time.max)
 
     #sortiert nur nach den raum
     rooms = login.rooms().filter(name=raum)
@@ -92,6 +100,7 @@ def short_klassen(klassen: list[Any]) -> str | Any:
         while not k.startswith(prefix):
             prefix = prefix[:-1]
             if not prefix:
+                print(f"LEER: {klassen}", flush=True)
                 return "XXXXXX"
     #add X
     laenge = len(klassen[0])
